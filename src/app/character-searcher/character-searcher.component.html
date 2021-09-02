@@ -1,0 +1,35 @@
+<h1>StarWars Search</h1>
+<form [formGroup]="form"
+	  autocomplete="off">
+	<mat-form-field appearance="outline">
+		<mat-label>Name</mat-label>
+		<input matInput
+			   type="text"
+			   name="characterName"
+			   formControlName="characterName"
+			   placeholder="Name"
+			   (keydown)="onChangeValue()">
+
+		<mat-icon matSuffix
+				  class="input-icon">
+			search
+		</mat-icon>
+
+		<mat-hint *ngIf="form.value.characterName === ''">
+			Enter search phrase
+		</mat-hint>
+
+		<mat-hint *ngIf="form.value.characterName !== '' &&  !hasResult">
+			Nothing Found
+		</mat-hint>
+	</mat-form-field>
+</form>
+<mat-spinner *ngIf="isBusy"
+			 class="g-spinner">
+</mat-spinner>
+
+<div *ngFor="let character of characters">
+	<mat-card class="character-name__wrapper">
+		<p [innerHTML]="character.name | highlight : form.value.characterName"></p>
+	</mat-card>
+</div>
